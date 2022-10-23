@@ -1,3 +1,14 @@
+bl_info = {
+    "name" : "Merc Deployer",
+    "description" : "Deploy the mercs into your scene!",
+    "author" : "hisanimations",
+    "version" : (1, 0),
+    "blender" : (3, 0, 0),
+    "location" : "View3d > Merc Deployer",
+    "support" : "COMMUNITY",
+    "category" : "Object",
+}
+
 import bpy
 from pathlib import Path
 

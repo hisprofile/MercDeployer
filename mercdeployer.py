@@ -40,7 +40,7 @@ def append(a, b):
     
     bpy.ops.wm.append(filename=object, directory=directory)
 
-def appendtext(a):
+def appendtext(a): # add the .py script to add further control to faces
     blendfile = f'{path}/{a}.blend'
     section = "\\Text\\"
     object = f'{a}.py'
@@ -50,11 +50,14 @@ def appendtext(a):
         bpy.data.texts[f'{a}.py']
         bpy.data.texts[f'{a}.py'].use_fake_user = True
     except:
-        bpy.ops.wm.append(filename=object, directory=directory)
+        try:
+            bpy.ops.wm.append(filename=object, directory=directory)
+        except:
+            return "cancelled"
         try:
             bpy.data.texts[f'{a}.py'].as_module()
         except:
-            return {'CANCELLED'}
+            return "cancelled"
         bpy.data.texts[f'{a}.py'].use_module = True
         bpy.data.texts[f'{a}.py'].use_fake_user = True
     return {'FINISHED'}
@@ -140,7 +143,9 @@ class MERCDEPLOY(bpy.types.Panel):
                 def execute(self, context):
                     bak = GetActiveCol()
                     SetActiveCol()
-                    appendtext(self.merc)
+                    if appendtext(self.merc) == "cancelled":
+                        self.report({'INFO'}, "No Mercs Found!")
+                        return {'CANCELLED'}
                     append(self.merc, self.type)
                     
                     print(bak)
